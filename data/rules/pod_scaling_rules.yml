@@ -1,0 +1,27 @@
+#version: "3.1"
+#
+#rules:
+#
+#- rule: Activate pod scaling auto/manual form
+#  steps:
+#  - intent: intro_pod_scaling
+#  - action: utter_pod_scaling_intro
+#  - action: auto_pod_scaling_form
+#  - active_loop: auto_pod_scaling_form
+#
+#- rule: Pod scaling auto/manual form submit
+#  condition:
+#  - active_loop: auto_pod_scaling_form
+#  steps:
+#  - action: auto_pod_scaling_form
+#  - active_loop: null
+#  - slot_was_set:
+#    - requested_slot: null
+#  - action: utter_generic_thanks
+#
+#- rule: Activate pod scaling manual form
+#  steps:
+#  - intent: desire_manual_pod_scaling
+#  - action: utter_manual_pod_scaling_intro
+#  - action: pod_management_type_form
+#  - active_loop: pod_management_type_form

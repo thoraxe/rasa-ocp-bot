@@ -1,0 +1,29 @@
+version: "3.1"
+
+nlu:
+- intent: intro_pod_scaling
+  examples: |
+    - can you help me scale my pod?
+    - do you know about pod scaling?
+    - what can I do to scale my pod?
+    - i want to scale my pod
+
+- intent: desire_manual_pod_scaling
+  examples: |
+    - [manual](auto_pod_scaling)
+    
+- intent: desire_automatic_pod_scaling
+  examples: |
+    - [automatic](auto_pod_scaling)
+
+- intent: pod_management_type_bare
+  examples: |
+    - [bare](pod_management_type)
+
+- intent: pod_management_type_deployment_config
+  examples: |
+    - [deployment_config](pod_management_type)
+
+- intent: pod_management_type_deployment
+  examples: |
+    - [deployment](pod_management_type)

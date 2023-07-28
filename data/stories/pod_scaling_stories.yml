@@ -1,0 +1,36 @@
+
+version: "3.1"
+stories:
+- story: bare_pod_scaling
+  steps:
+  - intent: intro_pod_scaling
+  - action: utter_pod_scaling_intro
+  - action: auto_pod_scaling_form
+  - active_loop: auto_pod_scaling_form
+  - slot_was_set:
+    - requested_slot: auto_pod_scaling
+  - intent: desire_manual_pod_scaling
+    entities:
+    - auto_pod_scaling: manual
+  - slot_was_set:
+    - auto_pod_scaling: manual
+  - action: auto_pod_scaling_form
+  - slot_was_set:
+    - requested_slot: null
+  - active_loop: null
+  - action: utter_generic_thanks
+  - action: utter_manual_pod_scaling_intro
+  - action: pod_management_type_form
+  - active_loop: pod_management_type_form
+  - slot_was_set:
+    - requested_slot: pod_management_type
+  - intent: pod_management_type_bare
+    entities:
+    - pod_management_type: bare
+  - slot_was_set:
+    - pod_management_type: bare
+  - action: pod_management_type_form
+  - slot_was_set:
+    - requested_slot: null
+  - active_loop: null
+  - action: utter_generic_thanks

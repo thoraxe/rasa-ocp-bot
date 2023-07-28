@@ -1,0 +1,98 @@
+version: "3.1"
+
+intents:
+  - greet
+  - goodbye
+  - affirm
+  - deny
+  - mood_great
+  - mood_unhappy
+  - bot_challenge
+  - intro_pod_scaling
+  - desire_manual_pod_scaling
+  - desire_automatic_pod_scaling
+  - pod_management_type_bare
+  - pod_management_type_deployment_config
+  - pod_management_type_deployment
+
+responses:
+  utter_greet:
+  - text: "Hey! How are you?"
+
+  utter_cheer_up:
+  - text: "Here is something to cheer you up:"
+    image: "https://i.imgur.com/nGF1K8f.jpg"
+
+  utter_did_that_help:
+  - text: "Did that help you?"
+
+  utter_happy:
+  - text: "Great, carry on!"
+
+  utter_goodbye:
+  - text: "Bye"
+
+  utter_iamabot:
+  - text: "I am a bot, powered by Rasa."
+
+  utter_pod_scaling_intro:
+  - text: "I can help you with Pod scaling."
+
+  utter_generic_thanks:
+  - text: "OK, thanks for that."
+  - text: "OK, great."
+  - text: "Thanks."
+  - text: "Thank you."
+
+  utter_manual_pod_scaling_intro:
+  - text: "Alright, let's discuss manual Pod scaling."
+
+  utter_ask_auto_pod_scaling:
+  - text: "Are you trying to manually or automatically scale your pod?"
+    buttons:
+    - title: "Manual"
+      payload: '/desire_manual_pod_scaling{{"auto_pod_scaling":"manual"}}'
+    - title: "Automatic"
+      payload: '/desire_automatic_pod_scaling{{"auto_pod_scaling":"automatic"}}'
+
+  utter_ask_pod_management_type:
+  - text: "Do you have a Pod managed by a Deployment?"
+    buttons:
+    - title: "Deployment"
+      payload: '/pod_management_type_deployment{{"pod_management_type":"deployment"}}'
+    - title: "DeploymentConfig"
+      payload: '/pod_management_type_deployment_config{{"pod_management_type":"deployment_config"}}'
+    - title: "Bare Pod (no manager)"
+      payload: '/pod_management_type_bare{{"pod_management_type":"bare"}}'
+
+entities:
+  - auto_pod_scaling
+  - pod_management_type
+
+slots:
+  auto_pod_scaling:
+    type: text
+    mappings:
+      - type: from_entity
+        entity: auto_pod_scaling
+        conditions:
+          - active_loop: auto_pod_scaling_form
+  pod_management_type:
+    type: text
+    mappings:
+    - type: from_entity
+      entity: pod_management_type
+      conditions:
+        - active_loop: pod_management_type_form
+
+forms:
+  auto_pod_scaling_form:
+    required_slots:
+      - auto_pod_scaling
+  pod_management_type_form:
+    required_slots:
+      - pod_management_type
+
+session_config:
+  session_expiration_time: 60
+  carry_over_slots_to_new_session: true
