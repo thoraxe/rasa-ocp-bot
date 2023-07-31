@@ -51,23 +51,31 @@ responses:
   - text: "Are you trying to manually or automatically scale your pod?"
     buttons:
     - title: "Manual"
-      payload: '/desire_manual_pod_scaling{{"auto_pod_scaling":"manual"}}'
+      payload: '/desire_manual_pod_scaling'
     - title: "Automatic"
-      payload: '/desire_automatic_pod_scaling{{"auto_pod_scaling":"automatic"}}'
+      payload: '/desire_automatic_pod_scaling'
 
   utter_pod_management_type:
   - text: "Do you have a Pod managed by a Deployment?"
     buttons:
     - title: "Deployment"
-      payload: '/pod_management_type_deployment{{"pod_management_type":"deployment"}}'
+      payload: '/pod_management_type_deployment'
     - title: "DeploymentConfig"
-      payload: '/pod_management_type_deployment_config{{"pod_management_type":"deployment_config"}}'
+      payload: '/pod_management_type_deployment_config'
     - title: "Bare Pod (no manager)"
-      payload: '/pod_management_type_bare{{"pod_management_type":"bare"}}'
+      payload: '/pod_management_type_bare'
 
   utter_pod_management_type_bare:
   - text: "Unfortunately, a bare Pod without management cannot be scaled. You 
       should consider wrapping your Pod with a Deployment."
+
+  utter_pod_management_type_deployment:
+  - text: "You can scale a Deployment by changing the replica count either with
+      the command line or the web console."
+
+  utter_pod_management_type_deployment_config:
+  - text: "You can scale a DeploymentConfig by changing the replica count either with
+      the command line or the web console."
 
 #entities:
 #  - auto_pod_scaling

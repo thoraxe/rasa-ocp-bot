@@ -11,19 +11,24 @@ nlu:
 - intent: desire_manual_pod_scaling
   examples: |
     - [manual](auto_pod_scaling)
+    - i want to scale my pod manually
     
 - intent: desire_automatic_pod_scaling
   examples: |
     - [automatic](auto_pod_scaling)
+    - i want to scale my pod automatically
 
 - intent: pod_management_type_bare
   examples: |
     - [bare](pod_management_type)
+    - i have a bare pod
 
 - intent: pod_management_type_deployment_config
   examples: |
     - [deployment_config](pod_management_type)
+    - i am using a DeploymentConfig
 
 - intent: pod_management_type_deployment
   examples: |
     - [deployment](pod_management_type)
+    - i am using a deployment

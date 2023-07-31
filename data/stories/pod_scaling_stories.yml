@@ -8,10 +8,37 @@ stories:
   - action: utter_auto_pod_scaling
   - intent: desire_manual_pod_scaling
   - action: utter_generic_thanks
+  - action: utter_manual_pod_scaling_intro
   - action: utter_pod_management_type
   - intent: pod_management_type_bare
   - action: utter_generic_thanks
   - action: utter_pod_management_type_bare
+  
+- story: deployment_pod_scaling
+  steps:
+  - intent: intro_pod_scaling
+  - action: utter_pod_scaling_intro
+  - action: utter_auto_pod_scaling
+  - intent: desire_manual_pod_scaling
+  - action: utter_generic_thanks
+  - action: utter_manual_pod_scaling_intro
+  - action: utter_pod_management_type
+  - intent: pod_management_type_deployment
+  - action: utter_generic_thanks
+  - action: utter_pod_management_type_deployment
+
+- story: deployment_config_pod_scaling
+  steps:
+  - intent: intro_pod_scaling
+  - action: utter_pod_scaling_intro
+  - action: utter_auto_pod_scaling
+  - intent: desire_manual_pod_scaling
+  - action: utter_generic_thanks
+  - action: utter_manual_pod_scaling_intro
+  - action: utter_pod_management_type
+  - intent: pod_management_type_deployment_config
+  - action: utter_generic_thanks
+  - action: utter_pod_management_type_deployment_config
 
 #  - action: auto_pod_scaling_form
 #  - active_loop: auto_pod_scaling_form
