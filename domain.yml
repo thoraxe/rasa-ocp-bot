@@ -97,52 +97,51 @@ responses:
     
   utter_standard_horizontal_pod_autoscaler:
   - text: "It sounds like you need a standard horizontal pod autoscaler (HPA). 
-      I'm not smart enough to ask you any additional questions yet, but you can
-      find the documentation for the HPA here: 
-      https://docs.openshift.com/container-platform/latest/nodes/pods/nodes-pods-autoscaling.html"
+      Let's get some more information from you."
+#      I'm not smart enough to ask you any additional questions yet, but you can
+#      find the documentation for the HPA here: 
+#      https://docs.openshift.com/container-platform/latest/nodes/pods/nodes-pods-autoscaling.html"
 
   utter_ask_horizontal_pod_autoscaling_form_deployment_name:
   - text: "What is the name of your deployment?"
 
-  utter_hpa_form_recap:
-  - text: "Alright, as I understand it, your deployment is called {deployment_name}"
+  utter_ask_horizontal_pod_autoscaling_form_min_hpa_replicas:
+  - text: "What is the minimum number (lowest scale) of Pods you want?"
 
-entities:
-# horizontal pod autoscaler
-  - deployment_name
-  - target_cpu_utilization
-  - minimum_hpa_replica_count
-  - maximum_hpa_replica_count
+  utter_hpa_form_recap:
+  - text: "Alright, as I understand it, your deployment is called {deployment_name}.
+      You want it to scale to a minimum of {min_hpa_replicas} pods."
+
+#entities:
+#  - horizontal pod autoscaler
+#  - deployment_name
+#  - target_cpu_utilization
+#  - minimum_hpa_replica_count
+#  - maximum_hpa_replica_count
 
 slots:
   deployment_name:
     type: text
     mappings:
-    - type: from_entity
+    - type: from_text
       entity: deployment_name
       conditions:
         - active_loop: horizontal_pod_autoscaling_form
           requested_slot: deployment_name
-
-#  auto_pod_scaling:
-#    type: text
-#    mappings:
-#      - type: from_entity
-#        entity: auto_pod_scaling
-#        conditions:
-#          - active_loop: auto_pod_scaling_form
-#  pod_management_type:
-#    type: text
-#    mappings:
-#    - type: from_entity
-#      entity: pod_management_type
-#      conditions:
-#        - active_loop: pod_management_type_form
+  min_hpa_replicas:
+    type: text
+    mappings:
+    - type: from_text
+      entity: min_hpa_replicas
+      conditions:
+        - active_loop: horizontal_pod_autoscaling_form
+          requested_slot: min_hpa_replicas
 
 forms:
   horizontal_pod_autoscaling_form:
     required_slots:
       - deployment_name
+      - min_hpa_replicas
 #  pod_management_type_form:
 #    required_slots:
 #      - pod_management_type
