@@ -1,23 +1,26 @@
-#version: "3.1"
-#
-#rules:
-#
-#- rule: Activate pod scaling auto/manual form
-#  steps:
-#  - intent: intro_pod_scaling
-#  - action: utter_pod_scaling_intro
-#  - action: auto_pod_scaling_form
-#  - active_loop: auto_pod_scaling_form
-#
-#- rule: Pod scaling auto/manual form submit
-#  condition:
-#  - active_loop: auto_pod_scaling_form
-#  steps:
-#  - action: auto_pod_scaling_form
-#  - active_loop: null
-#  - slot_was_set:
-#    - requested_slot: null
-#  - action: utter_generic_thanks
+version: "3.1"
+
+rules:
+
+- rule: Activate hpa form
+  steps:
+  - intent: desire_standard_horizontal_pod_autoscaler
+  - action: utter_generic_thanks
+  - action: utter_standard_horizontal_pod_autoscaler
+  - action: horizontal_pod_autoscaling_form
+  - active_loop: horizontal_pod_autoscaling_form
+
+- rule: Submit hpa form
+  condition:
+  - active_loop: horizontal_pod_autoscaling_form
+  steps:
+  - action: horizontal_pod_autoscaling_form
+  - active_loop: null
+  - slot_was_set:
+    - requested_slot: null
+  - action: utter_generic_thanks
+  - action: utter_hpa_form_recap
+
 #
 #- rule: Activate pod scaling manual form
 #  steps:

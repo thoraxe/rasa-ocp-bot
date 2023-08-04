@@ -12,8 +12,10 @@ intents:
   - desire_manual_pod_scaling
   - desire_automatic_pod_scaling
   - pod_management_type_bare
-  - pod_management_type_deployment_config
   - pod_management_type_deployment
+  - desire_pod_scaling_horizontal
+  - desire_pod_scaling_vertical
+  - desire_standard_horizontal_pod_autoscaler
 
 responses:
   utter_greet:
@@ -56,12 +58,10 @@ responses:
       payload: '/desire_automatic_pod_scaling'
 
   utter_pod_management_type:
-  - text: "Do you have a Pod managed by a Deployment?"
+  - text: "Do you have a Pod managed by a Deployment or DeploymentConfig?"
     buttons:
-    - title: "Deployment"
+    - title: "Deployment or DeploymentConfig"
       payload: '/pod_management_type_deployment'
-    - title: "DeploymentConfig"
-      payload: '/pod_management_type_deployment_config'
     - title: "Bare Pod (no manager)"
       payload: '/pod_management_type_bare'
 
@@ -70,18 +70,60 @@ responses:
       should consider wrapping your Pod with a Deployment."
 
   utter_pod_management_type_deployment:
-  - text: "You can scale a Deployment by changing the replica count either with
-      the command line or the web console."
+  - text: "You can manually scale a Deployment or DeploymentConfig by changing
+      the replica count either with the command line or the web console."
 
   utter_pod_management_type_deployment_config:
   - text: "You can scale a DeploymentConfig by changing the replica count either with
       the command line or the web console."
 
-#entities:
-#  - auto_pod_scaling
-#  - pod_management_type
-#
-#slots:
+  utter_pod_scaling_horizontal_vertical_type:
+  - text: "Do you want to scale your pods vertically (more CPU/memory) or horizontally (add more pods)?"
+    buttons:
+    - title: "Horizontal"
+      payload: '/desire_pod_scaling_horizontal'
+    - title: "Vertical"
+      payload: '/desire_pod_scaling_vertical'
+    
+  utter_horizontal_scaling_custom_metrics:
+  - text: "Do you want to make scaling decisions based on CPU/memory utilization
+      , or do you have your own custom metrics that you want to base scaling 
+      decisions on?"
+    buttons:
+    - title: "CPU and Memory Only"
+      payload: '/desire_standard_horizontal_pod_autoscaler'
+    - title: "Custom Metrics"
+      payload: '/desire_custom_metrics_horizontal_pod_autoscaler'
+    
+  utter_standard_horizontal_pod_autoscaler:
+  - text: "It sounds like you need a standard horizontal pod autoscaler (HPA). 
+      I'm not smart enough to ask you any additional questions yet, but you can
+      find the documentation for the HPA here: 
+      https://docs.openshift.com/container-platform/latest/nodes/pods/nodes-pods-autoscaling.html"
+
+  utter_ask_horizontal_pod_autoscaling_form_deployment_name:
+  - text: "What is the name of your deployment?"
+
+  utter_hpa_form_recap:
+  - text: "Alright, as I understand it, your deployment is called {deployment_name}"
+
+entities:
+# horizontal pod autoscaler
+  - deployment_name
+  - target_cpu_utilization
+  - minimum_hpa_replica_count
+  - maximum_hpa_replica_count
+
+slots:
+  deployment_name:
+    type: text
+    mappings:
+    - type: from_entity
+      entity: deployment_name
+      conditions:
+        - active_loop: horizontal_pod_autoscaling_form
+          requested_slot: deployment_name
+
 #  auto_pod_scaling:
 #    type: text
 #    mappings:
@@ -97,10 +139,10 @@ responses:
 #      conditions:
 #        - active_loop: pod_management_type_form
 
-#forms:
-#  auto_pod_scaling_form:
-#    required_slots:
-#      - auto_pod_scaling
+forms:
+  horizontal_pod_autoscaling_form:
+    required_slots:
+      - deployment_name
 #  pod_management_type_form:
 #    required_slots:
 #      - pod_management_type

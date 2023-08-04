@@ -5,67 +5,48 @@ stories:
   steps:
   - intent: intro_pod_scaling
   - action: utter_pod_scaling_intro
-  - action: utter_auto_pod_scaling
-  - intent: desire_manual_pod_scaling
-  - action: utter_generic_thanks
-  - action: utter_manual_pod_scaling_intro
   - action: utter_pod_management_type
   - intent: pod_management_type_bare
   - action: utter_generic_thanks
   - action: utter_pod_management_type_bare
-  
+  - action: action_restart
+
 - story: deployment_pod_scaling
   steps:
   - intent: intro_pod_scaling
   - action: utter_pod_scaling_intro
-  - action: utter_auto_pod_scaling
-  - intent: desire_manual_pod_scaling
-  - action: utter_generic_thanks
-  - action: utter_manual_pod_scaling_intro
   - action: utter_pod_management_type
   - intent: pod_management_type_deployment
   - action: utter_generic_thanks
-  - action: utter_pod_management_type_deployment
-
-- story: deployment_config_pod_scaling
-  steps:
-  - intent: intro_pod_scaling
-  - action: utter_pod_scaling_intro
   - action: utter_auto_pod_scaling
   - intent: desire_manual_pod_scaling
   - action: utter_generic_thanks
-  - action: utter_manual_pod_scaling_intro
-  - action: utter_pod_management_type
-  - intent: pod_management_type_deployment_config
-  - action: utter_generic_thanks
-  - action: utter_pod_management_type_deployment_config
+  - action: utter_pod_management_type_deployment
+  - action: action_restart
 
-#  - action: auto_pod_scaling_form
-#  - active_loop: auto_pod_scaling_form
-#  - slot_was_set:
-#    - requested_slot: auto_pod_scaling
-#  - intent: desire_manual_pod_scaling
-#    entities:
-#    - auto_pod_scaling: manual
-#  - slot_was_set:
-#    - auto_pod_scaling: manual
-#  - action: auto_pod_scaling_form
-#  - slot_was_set:
-#    - requested_slot: null
-#  - active_loop: null
-#  - action: utter_generic_thanks
-#  - action: utter_manual_pod_scaling_intro
-#  - action: pod_management_type_form
-#  - active_loop: pod_management_type_form
-#  - slot_was_set:
-#    - requested_slot: pod_management_type
-#  - intent: pod_management_type_bare
-#    entities:
-#    - pod_management_type: bare
-#  - slot_was_set:
-#    - pod_management_type: bare
-#  - action: pod_management_type_form
-#  - slot_was_set:
-#    - requested_slot: null
-#  - active_loop: null
-#  - action: utter_generic_thanks
+- story: standard_horizontal_pod_scaling_deployment
+  steps:
+  - intent: intro_pod_scaling
+  - action: utter_pod_scaling_intro
+  - action: utter_pod_management_type
+  - intent: pod_management_type_deployment
+  - action: utter_generic_thanks
+  - action: utter_auto_pod_scaling
+  - intent: desire_automatic_pod_scaling
+  - action: utter_generic_thanks
+  - action: utter_pod_scaling_horizontal_vertical_type
+  - intent: desire_pod_scaling_horizontal
+  - action: utter_generic_thanks
+  - action: utter_horizontal_scaling_custom_metrics
+  - intent: desire_standard_horizontal_pod_autoscaler
+  - action: utter_generic_thanks
+  - action: utter_standard_horizontal_pod_autoscaler
+  - action: horizontal_pod_autoscaling_form
+  - active_loop: horizontal_pod_autoscaling_form
+  - slot_was_set:
+    - requested_slot: deployment_name
+  - slot_was_set:
+    - requested_slot: null
+  - active_loop: null
+  - action: utter_generic_thanks
+  - action: utter_hpa_form_recap

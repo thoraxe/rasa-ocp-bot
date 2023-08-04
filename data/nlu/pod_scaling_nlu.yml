@@ -20,15 +20,28 @@ nlu:
 
 - intent: pod_management_type_bare
   examples: |
-    - [bare](pod_management_type)
     - i have a bare pod
-
-- intent: pod_management_type_deployment_config
-  examples: |
-    - [deployment_config](pod_management_type)
-    - i am using a DeploymentConfig
+    - no pod manager
 
 - intent: pod_management_type_deployment
   examples: |
-    - [deployment](pod_management_type)
     - i am using a deployment
+    - i am using a deploymentconfig
+
+- intent: desire_pod_scaling_horizontal
+  examples: |
+    - i want to scale horizontally
+    - i want to scale out the number of pods
+    - i want to add or reduce pods as needed
+
+- intent: desire_pod_scaling_vertical
+  examples: |
+    - i want to scale vertically
+    - i want to scale the size of my pods
+    - i want to add or reduce cpu and memory as needed
+
+- intent: desire_standard_horizontal_pod_autoscaler
+  examples: |
+    - cpu and memory only
+    - just cpu and memory
+    - cpu/memory
