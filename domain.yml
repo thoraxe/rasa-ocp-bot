@@ -96,8 +96,9 @@ responses:
       payload: '/desire_custom_metrics_horizontal_pod_autoscaler'
     
   utter_standard_horizontal_pod_autoscaler:
-  - text: "It sounds like you need a standard horizontal pod autoscaler (HPA). 
-      Let's get some more information from you."
+  - text: "It sounds like you need a standard horizontal pod autoscaler (HPA).
+      The HPA can scale your pods so that they maintain a target average
+      utilization of CPU or memory. Let's get some more information from you."
 #      I'm not smart enough to ask you any additional questions yet, but you can
 #      find the documentation for the HPA here: 
 #      https://docs.openshift.com/container-platform/latest/nodes/pods/nodes-pods-autoscaling.html"
@@ -108,9 +109,25 @@ responses:
   utter_ask_horizontal_pod_autoscaling_form_min_hpa_replicas:
   - text: "What is the minimum number (lowest scale) of Pods you want?"
 
+  utter_ask_horizontal_pod_autoscaling_form_max_hpa_replicas:
+  - text: "What is the maximum number (highest scale) of Pods you want?"
+
+  utter_ask_horizontal_pod_autoscaling_form_cpu_memory_utilization:
+  - text: "Do you want to target CPU or memory utilization?"
+    buttons:
+    - title: "CPU utilization"
+      payload: 'cpu utilization'
+    - title: "Memory utilization"
+      payload: 'memory utilization'
+
+  utter_ask_horizontal_pod_autoscaling_form_cpu_memory_utilization_target:
+  - text: "What is the target utilization percentage you want?"
+
   utter_hpa_form_recap:
   - text: "Alright, as I understand it, your deployment is called {deployment_name}.
-      You want it to scale to a minimum of {min_hpa_replicas} pods."
+      You want it to scale to a minimum of {min_hpa_replicas} pods and be limited to
+      a maximum of {max_hpa_replicas} pods. You want to target an average 
+      {cpu_memory_utilization} of {cpu_memory_utilization_target}."
 
 #entities:
 #  - horizontal pod autoscaler
@@ -136,15 +153,42 @@ slots:
       conditions:
         - active_loop: horizontal_pod_autoscaling_form
           requested_slot: min_hpa_replicas
+  max_hpa_replicas:
+    type: text
+    mappings:
+    - type: from_text
+      entity: max_hpa_replicas
+      conditions:
+        - active_loop: horizontal_pod_autoscaling_form
+          requested_slot: max_hpa_replicas
+  cpu_memory_utilization:
+    type: text
+    mappings:
+    - type: from_text
+      entity: cpu_memory_utilization
+      conditions:
+        - active_loop: horizontal_pod_autoscaling_form
+          requested_slot: cpu_memory_utilization
+  cpu_memory_utilization_target:
+    type: text
+    mappings:
+    - type: from_text
+      entity: cpu_memory_utilization_target
+      conditions:
+        - active_loop: horizontal_pod_autoscaling_form
+          requested_slot: cpu_memory_utilization_target
 
 forms:
   horizontal_pod_autoscaling_form:
     required_slots:
       - deployment_name
       - min_hpa_replicas
-#  pod_management_type_form:
-#    required_slots:
-#      - pod_management_type
+      - max_hpa_replicas
+      - cpu_memory_utilization
+      - cpu_memory_utilization_target
+    
+actions:
+  - action_call_llm
 
 session_config:
   session_expiration_time: 60
